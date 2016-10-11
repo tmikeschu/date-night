@@ -1,4 +1,5 @@
 module Nodeable
+    
     def insert(score, title)
         if movie.values.first > score
             insert_left(score, title)
@@ -70,11 +71,22 @@ module Nodeable
     end 
 
     def sort
-        return movie if @left = nil
+        if left.nil? || sorted.include?(movie)
+             movie 
+        else 
+            left.sort
+        end
+
+        if right.nil? || sorted.include?(movie)
+            movie unless sorted.include?(movie)
+        else
+            right.sort
+        end
         
-        #node
-        #node.right
+        movie unless sorted.include?(movie)
     end
+
+    
 
 end
 

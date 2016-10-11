@@ -1,10 +1,12 @@
 require './lib/node'
 require 'pry'
 class BinarySearchTree 
-    attr_accessor :root
+    attr_accessor :root,
+                  :sorted_movies
     
     def initialize
         @root  = nil
+        @sorted_movies = []
     end
 
     def insert(score, title)
@@ -37,10 +39,30 @@ class BinarySearchTree
     end
 
     def sort
-        sorted = []
-        sorted << min
-        # sorted << 
-        sorted
+        if root.left.nil?
+            sorted_movies << root.movie
+        else    
+            root.sort 
+        end
     end
     
+    def load(file)
+        movies_file = File.open("./lib/#{file}", "r")
+        movies = movies_file.read
+        movies_file.close
+        format(movies)
+    end
+
+    def format(movies)
+        movies = movies.split("\n")
+        movies.each { |movie| movie.strip!}
+        movies = movies.map {|movie| movie.split(", ")}
+        movies.each { |movie| movie[0] = movie[0].to_i }
+        movies.shuffle!
+        movies.each do |movie|
+            insert(movie.first, movie.last)
+        end
+        movies.length
+    end
+
 end

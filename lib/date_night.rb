@@ -36,6 +36,14 @@ class BinarySearchTree
     def min
         @root.min
     end
+
+    def sort
+        sorted = []
+        sorted << min
+        
+        sorted
+    end
+
 end
 
 

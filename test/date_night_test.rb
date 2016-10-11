@@ -183,7 +183,7 @@ class BinarySearchTreeTest < Minitest::Test
 
     def test_can_load_file
         tree = BinarySearchTree.new
-        assert_equal 4, tree.load('movies.txt')
+        assert_equal 99, tree.load('movies.txt')
         binding.pry
     end
 

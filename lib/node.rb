@@ -82,5 +82,8 @@ class Node
         @left.min
     end 
 
+    def one_above(node)
+        
+    end
 
 end

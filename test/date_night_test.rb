@@ -154,7 +154,7 @@ class BinarySearchTreeTest < Minitest::Test
         tree.insert(92, "Sharknado 3")
         tree.insert(50, "Hannibal Buress: Animal Furnace")
 
-        assert_equal ({"Sharknado 3" => 92}), tree.max
+        assert_equal ({"Sharknado 3" => 92}), tree.root.max
     end
 
     def test_can_find_min_score
@@ -164,7 +164,7 @@ class BinarySearchTreeTest < Minitest::Test
         tree.insert(92, "Sharknado 3")
         tree.insert(50, "Hannibal Buress: Animal Furnace")
 
-        assert_equal ({"Johnny English" => 16}), tree.min 
+        assert_equal ({"Johnny English" => 16}), tree.root.min 
     end
 
     def test_can_sort_nodes_by_score

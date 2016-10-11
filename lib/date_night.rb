@@ -1,7 +1,6 @@
 require './lib/node'
 require 'pry'
-class BinarySearchTree
-    
+class BinarySearchTree 
     attr_accessor :root
     
     def initialize
@@ -43,7 +42,5 @@ class BinarySearchTree
         # sorted << 
         sorted
     end
-
+    
 end
-
-

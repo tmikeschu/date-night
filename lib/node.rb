@@ -1,17 +1,4 @@
-class Node 
-    attr_reader   :movie
-
-    attr_accessor :left,
-                  :right,
-                  :depth
-
-    def initialize(score, title)
-        @movie = {title => score}
-        @left  = nil
-        @right = nil
-        @depth = 0
-    end
-
+module Nodeable
     def insert(score, title)
         if movie.values.first > score
             insert_left(score, title)
@@ -89,5 +76,22 @@ class Node
         #node.right
     end
 
+end
+
+class Node
+    include Nodeable
+
+    attr_reader   :movie
+
+    attr_accessor :left,
+                  :right,
+                  :depth
+
+    def initialize(score, title)
+        @movie = {title => score}
+        @left  = nil
+        @right = nil
+        @depth = 0
+    end
 end
 

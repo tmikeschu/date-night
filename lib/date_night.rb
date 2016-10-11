@@ -9,38 +9,38 @@ class BinarySearchTree
     end
 
     def insert(score, title)
-        if @root.nil?
+        if root.nil?
             @root = Node.new(score, title)
-            @root.depth
+            root.depth
         else 
-            @root.insert(score, title)
+            root.insert(score, title)
         end
     end
 
     def include?(score)
-        if @root.movie.values.first == score
+        if root.movie.values.first == score
             true
         else
-            @root.include?(score)
+            root.include?(score)
         end
     end
 
     def depth_of(score)
-        @root.depth_of(score)
+        root.depth_of(score)
     end
     
     def max
-        @root.max
+        root.max
     end
 
     def min
-        @root.min
+        root.min
     end
 
     def sort
         sorted = []
         sorted << min
-        
+        # sorted << 
         sorted
     end
 

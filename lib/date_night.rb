@@ -2,10 +2,14 @@ require './lib/node'
 require 'pry'
 class BinarySearchTree 
     attr_accessor :root,
-                  :sorted_movies
+                  :sorted_movies,
+                  :left,
+                  :right
     
     def initialize
         @root  = nil
+        @left = left
+        @right = right
         @sorted_movies = []
     end
 
@@ -63,6 +67,10 @@ class BinarySearchTree
             insert(movie.first, movie.last)
         end
         movies.length
+    end
+    
+    def health(depth)
+        
     end
 
 end

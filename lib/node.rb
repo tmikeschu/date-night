@@ -40,10 +40,6 @@ class Node
             right.insert(score, title)
         end
     end
-
-    def depth_is(depth)
-        @depth == depth
-    end
              
 
 end

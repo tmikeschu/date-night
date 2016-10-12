@@ -145,7 +145,7 @@ class BinarySearchTreeTest < Minitest::Test
         tree.insert(16, "Johnny English")
         tree.insert(92, "Sharknado 3")
         tree.insert(50, "Hannibal Buress: Animal Furnace")
-        binding.pry
+        #binding.pry
         assert_equal 0, tree.depth_of(61)
         assert_equal 1, tree.depth_of(92)
         assert_equal 2, tree.depth_of(50)
@@ -211,14 +211,14 @@ class BinarySearchTreeTest < Minitest::Test
     end
 
     def test_count_number_of_child_nodes_including_current
-        skip
         tree = BinarySearchTree.new
         tree.insert(61, "Bill & Ted's Excellent Adventure")
         tree.insert(16, "Johnny English")
         tree.insert(92, "Sharknado 3")
         tree.insert(50, "Hannibal Buress: Animal Furnace")
+        
         #binding.pry
-        assert_equal 2, tree.children(50)
+        assert_equal 2, tree.parent_node(50)
     end
 
     def test_health_diagnostics

@@ -31,7 +31,7 @@ class BinarySearchTree
 
     def find_node_at_score(node = @root, score)
         if node.movie.values.first == score
-            return node
+            node
         elsif left?(node, score)
             find_node_at_score(node.left, score)
         elsif right?(node, score)
@@ -123,15 +123,20 @@ class BinarySearchTree
         nodes.flatten
     end
     
-    def children(node = @root, score)
-        child_count = 0
-        if node.movie.values.first == score
-            child_count += 1
-        end
+    def parent_node(node = @root, score)
+        node = find_node_at_score(node, score)
+        children(node)
+    end
 
+    def children(node = @root)
+        child_count  = 0
+        child_count += 1
 
-        child_count += children(node.left, score) if node.left != nil
-        child_count += children(node.right, score) if node.right != nil
+        child_count += 1 if node.left  != nil
+        child_count += 1 if node.right != nil
+
+        children(node.left) 
+        children(node.right)
 
         child_count
     end
@@ -142,6 +147,7 @@ class BinarySearchTree
         node_scores = movies_at_depth(node, depth)
         node_scores = node_scores.map {|movie| movie.values.first}
 
+        node_scores.each {|score| find_node_at_score(score)}
         children_counts = nodes_at_depth(node, depth)
         
         

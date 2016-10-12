@@ -140,7 +140,7 @@ class BinarySearchTree
 
     def health(node = @root, depth)
         health_array = []
-        binding.pry
+        
         node_scores = movies_at_depth(node, depth)
         node_scores = node_scores.map {|movie| movie.values.first}
 
@@ -150,7 +150,7 @@ class BinarySearchTree
         children_counts
         
 
-        proportions = children_counts.map {|count| ((count.to_f / total_nodes.to_f)*100).to_int}
+        proportions = children_counts.map {|count| ((count.to_f / total_nodes.to_f)*100).floor}
         
         health_array = node_scores.zip(children_counts, proportions) 
         health_array

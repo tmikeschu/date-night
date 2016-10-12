@@ -78,7 +78,6 @@ class BinarySearchTree
         sorted_movies << sort(node.left) if node.left != nil 
         sorted_movies << node.movie unless sorted_movies.include?(node.movie)
         sorted_movies << sort(node.right) if node.right != nil
-        
         sorted_movies.flatten
     end
     
@@ -96,13 +95,19 @@ class BinarySearchTree
             movie.split(", ")
         end
         movies.each { |movie| movie[0] = movie[0].to_i }
-        until movies.first[0] > movies.sort[(movies.length/2) - 5].first && movies.first[0] < movies.sort[(movies.length/2) + 5].first
-            movies.shuffle!
-        end
+        shuffle_movie_list_until_healthy(movies)
         movies.each do |movie|
             insert(movie.first, movie.last)
         end
         movies.length
+    end
+
+    def shuffle_movie_list_until_healthy(movies)
+        five_less_than_median = (movies.length/2) - 5
+        five_more_than_median = (movies.length/2) + 5
+        until movies.first[0] > movies.sort[five_less_than_median].first && movies.first[0] < movies.sort[five_more_than_median].first
+            movies.shuffle!
+        end
     end
     
     def movies_at_depth(node = @root, depth)
@@ -176,6 +181,54 @@ class BinarySearchTree
             when 1, 0 then left
             when -1 then right
         end
+    end
+
+    def prepare_parent_for_death(node = @root, score)
+        node = find_node_at_score(node, score)
+        save_the_children(node)
+    end
+
+    def save_the_children(node = @root)
+        left  = node.left
+        right = node.right
+
+        child_array  = []
+
+        if left != nil
+            child_array << [left.movie.values.first, left.movie.keys.first]
+            child_array << save_the_children(node.left) 
+        
+        elsif node.right != nil
+            child_array << [right.movie.values.first, right.movie.keys.first]
+            child_array << save_the_children(node.right)
+        end 
+        child_array.reject! {|child| child.empty?}
+        child_array
+    end
+
+    def find_parent_at_score(node = @root, score)
+        if node.left.movie.values.first == score || node.right.movie.values.first == score
+            node
+        elsif left?(node, score)
+            find_parent_at_score(node.left, score)
+        elsif right?(node, score)
+            find_parent_at_score(node.right, score)
+        else
+            "#{score} does not exist in tree"
+        end
+    end
+
+    def delete(node = @root, score)
+        binding.pry
+        children = prepare_parent_for_death(score)
+        children
+        parent_of_parent = find_parent_at_score(score) 
+        if parent_of_parent.left.movie.values.first == node.movie.values.first
+            parent_of_parent.left = nil
+        elsif parent_of_parent.right.movie.values.first == node.movie.values.first
+            parent_of_parent.right = nil
+        end
+        children.each {|child| insert(child.first, child.last)}
     end
 
 end

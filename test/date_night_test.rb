@@ -247,7 +247,6 @@ class BinarySearchTreeTest < Minitest::Test
 
     def test_can_calculate_height_of_tree
         tree = BinarySearchTree.new
-        #binding.pry
         tree.insert(98, "Animals United")
         tree.insert(58, "Armageddon")
         tree.insert(36, "Bill & Ted's Bogus Journey")
@@ -255,7 +254,6 @@ class BinarySearchTreeTest < Minitest::Test
         tree.insert(86, "Charlie's Angels")
         tree.insert(38, "Charlie's Country")
         tree.insert(69, "Collateral Damage")
-        #binding.pry
         assert 5, tree.height
     end
 
@@ -265,6 +263,16 @@ class BinarySearchTreeTest < Minitest::Test
         assert tree.height
         assert tree.leaves
         assert tree.health(0)
+    end
+
+    def test_delete_parent
+        tree = BinarySearchTree.new
+        tree.insert(61, "Bill & Ted's Excellent Adventure")
+        tree.insert(16, "Johnny English")
+        tree.insert(92, "Sharknado 3")
+        tree.insert(50, "Hannibal Buress: Animal Furnace")
+
+        assert tree.delete(16)
     end
 
 

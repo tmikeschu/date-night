@@ -1,16 +1,11 @@
 require './lib/node'
 require 'pry'
+
 class BinarySearchTree 
-    attr_accessor :root,
-                  :sorted_movies,
-                  :left,
-                  :right
+    attr_accessor :root
     
     def initialize
         @root  = nil
-        @left = left
-        @right = right
-        @sorted_movies = []
     end
 
     def insert(score, title)
@@ -22,32 +17,59 @@ class BinarySearchTree
         end
     end
 
-    def include?(score)
-        if root.movie.values.first == score
+    def include?(node = @root, score)
+        if node.movie.values.first == score
             true
+        elsif left?(node, score)
+            include?(node.left, score)
+        elsif right?(node, score)
+            include?(node.right, score)
         else
-            root.include?(score)
+            false            
         end
     end
 
-    def depth_of(score)
-        root.depth_of(score)
-    end
-    
-    def max
-        root.max
-    end
-
-    def min
-        root.min
-    end
-
-    def sort
-        if root.left.nil?
-            sorted_movies << root.movie
-        else    
-            root.sort 
+    def depth_of(node = @root, score)
+        if node.movie.values.first == score
+            node.depth
+        elsif left?(node, score)
+            depth_of(node.left, score)
+        elsif right?(node, score)
+            depth_of(node.right, score)
+        else
+            "#{score} does not exist in tree"
         end
+    end
+
+    def left?(node, score)
+        node.movie.values.first > score && node.left != nil
+    end
+
+    def right?(node, score)
+        node.movie.values.first < score && node.right != nil
+    end
+
+    def max(node = @root)
+        return node.movie if node.right.nil?
+        max(node.right)
+    end
+
+    def min(node = @root)
+       return node.movie if node.left.nil?
+        min(node.left)
+    end 
+
+    def sort(node = @root)
+        sorted_movies = []
+        sorted_movies << node.movie if node.left.nil?
+
+        sorted_movies << sort(node.left) if node.left != nil 
+
+        sorted_movies << node.movie unless sorted_movies.include?(node.movie)
+
+        sorted_movies << sort(node.right) if node.right != nil
+        
+        sorted_movies.flatten
     end
     
     def load(file)
@@ -70,7 +92,6 @@ class BinarySearchTree
     end
     
     def health(depth)
-        
     end
 
 end

@@ -121,7 +121,6 @@ class BinarySearchTreeTest < Minitest::Test
         assert_equal 1, tree.insert(16, "Johnny English")
         assert_equal 1, tree.insert(92, "Sharknado 3")
         assert_equal 2, tree.insert(50, "Hannibal Buress: Animal Furnace")
-        #binding.pry
     end
     
     def test_include_method_finds_numbers_true_or_false
@@ -132,7 +131,12 @@ class BinarySearchTreeTest < Minitest::Test
         tree.insert(50, "Hannibal Buress: Animal Furnace")
         
         assert tree.include?(16)
+        assert tree.include?(61)
+        assert tree.include?(92)
+        assert tree.include?(50)        
         refute tree.include?(72)
+        refute tree.include?(44)
+        
     end
 
     def test_finds_depth_of_number
@@ -168,7 +172,6 @@ class BinarySearchTreeTest < Minitest::Test
     end
 
     def test_can_sort_nodes_by_score
-        skip
         tree = BinarySearchTree.new
         tree.insert(61, "Bill & Ted's Excellent Adventure")
         tree.insert(16, "Johnny English")
@@ -190,7 +193,7 @@ class BinarySearchTreeTest < Minitest::Test
     def test_health_diagnostics
         tree = BinarySearchTree.new
         tree.load('movies.txt')
-
+        #binding.pry
         assert tree.health(0)
     end
 

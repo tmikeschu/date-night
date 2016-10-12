@@ -225,6 +225,14 @@ class BinarySearchTreeTest < Minitest::Test
         tree.load('movies.txt')
         #binding.pry
         assert tree.health(0)
+        assert tree.health(3)
+    end
+
+    def test_total_nodes
+        tree = BinarySearchTree.new
+        tree.load('movies.txt')
+        
+        assert 99, tree.total_nodes
     end
 
 end

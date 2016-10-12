@@ -91,7 +91,48 @@ class BinarySearchTree
         movies.length
     end
     
-    def health(depth)
+    def movies_at_depth(node = @root, depth)
+        movies = []
+
+        movies << node.movie if node.depth == depth
+        
+        movies << movies_at_depth(node.left, depth) if node.left != nil
+        movies << movies_at_depth(node.right, depth) if node.right != nil
+        
+        movies.flatten
+    end
+
+    def nodes_at_depth(node = @root, depth)
+        nodes = []
+
+        nodes << node if node.depth == depth
+        
+        nodes << nodes_at_depth(node.left, depth) if node.left != nil
+        nodes << nodes_at_depth(node.right, depth) if node.right != nil
+        
+        nodes.flatten
+    end
+    
+    def children(node = @root)
+        child_count = 0
+        child_count += 1
+
+        child_count += children(node.left) if node.left != nil
+        child_count += children(node.right) if node.right != nil
+
+        child_count
+    end
+
+    def health(node = @root, depth)
+        health_array = []
+
+        node_scores = movies_at_depth(node, depth)
+        node_scores = node_scores.map {|movie| movie.values.first}
+
+        children_counts = nodes_at_depth(node, depth)
+        
+        
+        # health_array will zip three arrays (node_scores, children_counts, %'s)
     end
 
 end

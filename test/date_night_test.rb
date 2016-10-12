@@ -190,6 +190,36 @@ class BinarySearchTreeTest < Minitest::Test
         assert_equal 99, tree.load('movies.txt')
     end
 
+    def test_show_all_movies_at_given_depth
+        tree = BinarySearchTree.new
+        tree.insert(61, "Bill & Ted's Excellent Adventure")
+        tree.insert(16, "Johnny English")
+        tree.insert(92, "Sharknado 3")
+        tree.insert(50, "Hannibal Buress: Animal Furnace")
+    
+        assert_equal [{"Johnny English"=>16}, {"Sharknado 3"=>92}], tree.movies_at_depth(1)
+    end
+
+    def test_show_all_nodes_at_given_depth
+        tree = BinarySearchTree.new
+        tree.insert(61, "Bill & Ted's Excellent Adventure")
+        tree.insert(16, "Johnny English")
+        tree.insert(92, "Sharknado 3")
+        tree.insert(50, "Hannibal Buress: Animal Furnace")
+    
+        assert tree.nodes_at_depth(2)
+    end
+
+    def test_count_number_of_child_nodes_including_current
+        tree = BinarySearchTree.new
+        tree.insert(61, "Bill & Ted's Excellent Adventure")
+        tree.insert(16, "Johnny English")
+        tree.insert(92, "Sharknado 3")
+        tree.insert(50, "Hannibal Buress: Animal Furnace")
+        binding.pry
+        assert_equal 1, tree.children(tree.root.right)
+    end
+
     def test_health_diagnostics
         tree = BinarySearchTree.new
         tree.load('movies.txt')

@@ -145,7 +145,7 @@ class BinarySearchTreeTest < Minitest::Test
         tree.insert(16, "Johnny English")
         tree.insert(92, "Sharknado 3")
         tree.insert(50, "Hannibal Buress: Animal Furnace")
-        #binding.pry
+
         assert_equal 0, tree.depth_of(61)
         assert_equal 1, tree.depth_of(92)
         assert_equal 2, tree.depth_of(50)
@@ -221,11 +221,25 @@ class BinarySearchTreeTest < Minitest::Test
     end
 
     def test_health_diagnostics
-        skip
+        tree = BinarySearchTree.new
+        tree.insert(98, "Animals United")
+        tree.insert(58, "Armageddon")
+        tree.insert(36, "Bill & Ted's Bogus Journey")
+        tree.insert(93, "Bill & Ted's Excellent Adventure")
+        tree.insert(86, "Charlie's Angels")
+        tree.insert(38, "Charlie's Country")
+        tree.insert(69, "Collateral Damage")
+        assert_equal [[98, 7, 100]], tree.health(0)
+
+        assert_equal [[58, 6, 85]], tree.health(1)
+        assert_equal [[36, 2, 28], [93, 3, 42]], tree.health(2)
+    end
+
+    def test_total_nodes
         tree = BinarySearchTree.new
         tree.load('movies.txt')
-        #binding.pry
-        assert tree.health(0)
+        
+        assert 99, tree.total_nodes
     end
 
 end

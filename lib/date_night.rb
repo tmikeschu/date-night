@@ -17,6 +17,14 @@ class BinarySearchTree
         end
     end
 
+    def left?(node, score)
+        node.movie.values.first > score && node.left != nil
+    end
+
+    def right?(node, score)
+        node.movie.values.first < score && node.right != nil
+    end
+ 
     def include?(node = @root, score)
         if node.movie.values.first == score
             true
@@ -51,13 +59,6 @@ class BinarySearchTree
         end
     end
 
-    def left?(node, score)
-        node.movie.values.first > score && node.left != nil
-    end
-
-    def right?(node, score)
-        node.movie.values.first < score && node.right != nil
-    end
 
     def max(node = @root)
         return node.movie if node.right.nil?
@@ -74,9 +75,7 @@ class BinarySearchTree
         sorted_movies << node.movie if node.left.nil?
 
         sorted_movies << sort(node.left) if node.left != nil 
-
         sorted_movies << node.movie unless sorted_movies.include?(node.movie)
-
         sorted_movies << sort(node.right) if node.right != nil
         
         sorted_movies.flatten
@@ -84,7 +83,7 @@ class BinarySearchTree
     
     def load(file)
         movies_file = File.open("./lib/#{file}", "r")
-        movies = movies_file.read
+        movies      = movies_file.read
         movies_file.close
         format(movies)
     end
@@ -111,17 +110,6 @@ class BinarySearchTree
         
         movies.flatten
     end
-
-    def nodes_at_depth(node = @root, depth)
-        nodes = []
-
-        nodes << node if node.depth == depth
-        
-        nodes << nodes_at_depth(node.left, depth) if node.left != nil
-        nodes << nodes_at_depth(node.right, depth) if node.right != nil
-        
-        nodes.flatten
-    end
     
     def parent_node(node = @root, score)
         node = find_node_at_score(node, score)
@@ -138,15 +126,6 @@ class BinarySearchTree
         child_count
     end
 
-    def health(node = @root, depth)
-        health_array = []
-        
-        nodes        = node_scores(node, depth)
-        children     = child_count_array(node, depth)        
-        proportions  = node_proportions(node, depth)
-        
-        health_array = nodes.zip(children, proportions) 
-    end
 
     def node_scores(node = @root, depth)
         node_scores = movies_at_depth(node, depth)
@@ -163,6 +142,35 @@ class BinarySearchTree
 
     def total_nodes
         parent_node(root.movie.values.first)
+    end
+    
+    def health(node = @root, depth)
+        health_array = []
+        
+        nodes        = node_scores(node, depth)
+        children     = child_count_array(node, depth)        
+        proportions  = node_proportions(node, depth)
+        
+        health_array = nodes.zip(children, proportions) 
+    end
+
+    def leaves(node = @root)
+    end
+
+    def height(node = @root)
+        height = 0
+        height = node.depth if node.left.nil? && node.right.nil?
+
+        height_left  = height(node.left) if node.left != nil 
+        height_right = height(node.right) if node.right != nil
+        
+        if height_left > height_left
+            height = height_left
+        else
+            height = height_right
+        end
+
+        height 
     end
 
 end

@@ -200,16 +200,6 @@ class BinarySearchTreeTest < Minitest::Test
         assert_equal [{"Johnny English"=>16}, {"Sharknado 3"=>92}], tree.movies_at_depth(1)
     end
 
-    def test_show_all_nodes_at_given_depth
-        tree = BinarySearchTree.new
-        tree.insert(61, "Bill & Ted's Excellent Adventure")
-        tree.insert(16, "Johnny English")
-        tree.insert(92, "Sharknado 3")
-        tree.insert(50, "Hannibal Buress: Animal Furnace")
-    
-        assert tree.nodes_at_depth(2)
-    end
-
     def test_count_number_of_child_nodes_including_current
         tree = BinarySearchTree.new
         tree.insert(61, "Bill & Ted's Excellent Adventure")
@@ -239,7 +229,15 @@ class BinarySearchTreeTest < Minitest::Test
         tree = BinarySearchTree.new
         tree.load('movies.txt')
         
-        assert 99, tree.total_nodes
+        assert_equal 99, tree.total_nodes
     end
+
+    def test_can_calculate_height_of_tree
+        tree = BinarySearchTree.new
+        tree.load('movies.txt')
+        #binding.pry
+        assert tree.height
+    end
+
 
 end

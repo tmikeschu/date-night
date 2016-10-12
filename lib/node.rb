@@ -40,6 +40,10 @@ class Node
             right.insert(score, title)
         end
     end
+
+    def depth_tracker
+        
+    end
              
 
 end

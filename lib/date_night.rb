@@ -129,16 +129,14 @@ class BinarySearchTree
     end
 
     def children(node = @root)
-        child_count  = 0
+        child_count = 0
         child_count += 1
 
-        child_count += 1 if node.left  != nil
-        child_count += 1 if node.right != nil
-
-        children(node.left) 
-        children(node.right)
+        child_count += children(node.left) if node.left != nil
+        child_count += children(node.right) if node.right != nil
 
         child_count
+
     end
 
     def health(node = @root, depth)

@@ -217,8 +217,7 @@ class BinarySearchTreeTest < Minitest::Test
         tree.insert(92, "Sharknado 3")
         tree.insert(50, "Hannibal Buress: Animal Furnace")
         
-        #binding.pry
-        assert_equal 2, tree.parent_node(50)
+        assert_equal 2, tree.parent_node(16)
     end
 
     def test_health_diagnostics

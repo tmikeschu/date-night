@@ -41,7 +41,8 @@ class Node
         end
     end
 
-    def depth_tracker
+    def depth_tracker(depth)
+        max_depth = 0
         
     end
              

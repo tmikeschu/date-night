@@ -29,15 +29,25 @@ class BinarySearchTree
         end
     end
 
-    def depth_of(node = @root, score)
+    def find_node_at_score(node = @root, score)
         if node.movie.values.first == score
-            node.depth
+            return node
         elsif left?(node, score)
-            depth_of(node.left, score)
+            find_node_at_score(node.left, score)
         elsif right?(node, score)
-            depth_of(node.right, score)
+            find_node_at_score(node.right, score)
         else
             "#{score} does not exist in tree"
+        end
+    end
+
+    def depth_of(node = @root, score)
+        found_node = find_node_at_score(node, score)
+        
+        if found_node.is_a? String
+            found_node 
+        else 
+            found_node.depth
         end
     end
 
@@ -113,12 +123,15 @@ class BinarySearchTree
         nodes.flatten
     end
     
-    def children(node = @root)
+    def children(node = @root, score)
         child_count = 0
-        child_count += 1
+        if node.movie.values.first == score
+            child_count += 1
+        end
 
-        child_count += children(node.left) if node.left != nil
-        child_count += children(node.right) if node.right != nil
+
+        child_count += children(node.left, score) if node.left != nil
+        child_count += children(node.right, score) if node.right != nil
 
         child_count
     end
@@ -132,7 +145,7 @@ class BinarySearchTree
         children_counts = nodes_at_depth(node, depth)
         
         
-        # health_array will zip three arrays (node_scores, children_counts, %'s)
+        # health_array = health_array.zip(node_scores, children, proportions) will zip three arrays (node_scores, children_counts, %'s)
     end
 
 end

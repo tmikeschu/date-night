@@ -221,7 +221,6 @@ class BinarySearchTreeTest < Minitest::Test
     end
 
     def test_health_diagnostics
-        skip
         tree = BinarySearchTree.new
         tree.load('movies.txt')
         #binding.pry

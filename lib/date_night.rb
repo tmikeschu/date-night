@@ -129,25 +129,25 @@ class BinarySearchTree
     end
 
     def children(node = @root)
-        child_count = 0
+        child_count  = 0
         child_count += 1
 
         child_count += children(node.left) if node.left != nil
         child_count += children(node.right) if node.right != nil
 
         child_count
-
     end
 
     def health(node = @root, depth)
+        binding.pry
         health_array = []
 
         node_scores = movies_at_depth(node, depth)
         node_scores = node_scores.map {|movie| movie.values.first}
 
-        node_scores.each {|score| find_node_at_score(score)}
-        children_counts = nodes_at_depth(node, depth)
-        
+
+        children_counts = node_scores.map {|score| parent_node(score)}
+        children_counts
         
         # health_array = health_array.zip(node_scores, children, proportions) will zip three arrays (node_scores, children_counts, %'s)
     end

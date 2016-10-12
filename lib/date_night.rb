@@ -17,6 +17,7 @@ class BinarySearchTree
         end
     end
 
+
     def left?(node, score)
         node.movie.values.first > score && node.left != nil
     end
@@ -90,10 +91,14 @@ class BinarySearchTree
 
     def format(movies)
         movies = movies.split("\n")
-        movies.each { |movie| movie.strip!}
-        movies = movies.map {|movie| movie.split(", ")}
+        movies = movies.map do |movie| 
+            movie.strip!
+            movie.split(", ")
+        end
         movies.each { |movie| movie[0] = movie[0].to_i }
-        movies.shuffle!
+        until movies.first[0] > movies.sort[(movies.length/2) - 5].first && movies.first[0] < movies.sort[(movies.length/2) + 5].first
+            movies.shuffle!
+        end
         movies.each do |movie|
             insert(movie.first, movie.last)
         end
@@ -102,13 +107,15 @@ class BinarySearchTree
     
     def movies_at_depth(node = @root, depth)
         movies = []
-
         movies << node.movie if node.depth == depth
-        
         movies << movies_at_depth(node.left, depth) if node.left != nil
         movies << movies_at_depth(node.right, depth) if node.right != nil
-        
         movies.flatten
+    end
+    
+    def node_scores(node = @root, depth)
+        node_scores = movies_at_depth(node, depth)
+        node_scores = node_scores.map {|movie| movie.values.first}
     end
     
     def parent_node(node = @root, score)
@@ -119,17 +126,9 @@ class BinarySearchTree
     def children(node = @root)
         child_count  = 0
         child_count += 1
-
         child_count += children(node.left) if node.left != nil
         child_count += children(node.right) if node.right != nil
-
         child_count
-    end
-
-
-    def node_scores(node = @root, depth)
-        node_scores = movies_at_depth(node, depth)
-        node_scores = node_scores.map {|movie| movie.values.first}
     end
 
     def child_count_array(node = @root, depth)
@@ -146,31 +145,37 @@ class BinarySearchTree
     
     def health(node = @root, depth)
         health_array = []
-        
         nodes        = node_scores(node, depth)
         children     = child_count_array(node, depth)        
         proportions  = node_proportions(node, depth)
-        
         health_array = nodes.zip(children, proportions) 
     end
 
     def leaves(node = @root)
+        leaf_count  = 0
+        leaf_count += 1 if node.left.nil? && node.right.nil?
+        leaf_count += leaves(node.left) if node.left != nil
+        leaf_count += leaves(node.right) if node.right != nil
+        leaf_count
     end
 
     def height(node = @root)
-        height = 0
-        height = node.depth if node.left.nil? && node.right.nil?
-
-        height_left  = height(node.left) if node.left != nil 
-        height_right = height(node.right) if node.right != nil
+        return 0 if node.nil?
+        max_height = 0
+        left  = node.left
+        right = node.right
+        return max_height = node.depth + 1 if left.nil? && right.nil?
         
-        if height_left > height_left
-            height = height_left
-        else
-            height = height_right
-        end
+        height_left  = height(left)
+        height_right = height(right)
+        max_height   = compare(height_left, height_right)
+    end
 
-        height 
+    def compare(left, right)
+        case left <=> right
+            when 1, 0 then left
+            when -1 then right
+        end
     end
 
 end

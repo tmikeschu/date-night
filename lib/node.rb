@@ -40,12 +40,6 @@ class Node
             right.insert(score, title)
         end
     end
-
-    def depth_tracker(depth)
-        max_depth = 0
-        
-    end
              
-
 end
 

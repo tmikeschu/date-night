@@ -232,11 +232,39 @@ class BinarySearchTreeTest < Minitest::Test
         assert_equal 99, tree.total_nodes
     end
 
+    def test_can_count_total_leaves
+        tree = BinarySearchTree.new        
+        tree.insert(98, "Animals United")
+        tree.insert(58, "Armageddon")
+        tree.insert(36, "Bill & Ted's Bogus Journey")
+        tree.insert(93, "Bill & Ted's Excellent Adventure")
+        tree.insert(86, "Charlie's Angels")
+        tree.insert(38, "Charlie's Country")
+        tree.insert(69, "Collateral Damage")
+    
+        assert_equal 2, tree.leaves
+    end
+
     def test_can_calculate_height_of_tree
         tree = BinarySearchTree.new
-        tree.load('movies.txt')
         #binding.pry
+        tree.insert(98, "Animals United")
+        tree.insert(58, "Armageddon")
+        tree.insert(36, "Bill & Ted's Bogus Journey")
+        tree.insert(93, "Bill & Ted's Excellent Adventure")
+        tree.insert(86, "Charlie's Angels")
+        tree.insert(38, "Charlie's Country")
+        tree.insert(69, "Collateral Damage")
+        #binding.pry
+        assert 5, tree.height
+    end
+
+    def test_methods_on_big_file
+        tree = BinarySearchTree.new
+        tree.load('movies.txt')
         assert tree.height
+        assert tree.leaves
+        assert tree.health(0)
     end
 
 

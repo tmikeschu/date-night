@@ -141,19 +141,24 @@ class BinarySearchTree
     def health(node = @root, depth)
         health_array = []
         
+        nodes        = node_scores(node, depth)
+        children     = child_count_array(node, depth)        
+        proportions  = node_proportions(node, depth)
+        
+        health_array = nodes.zip(children, proportions) 
+    end
+
+    def node_scores(node = @root, depth)
         node_scores = movies_at_depth(node, depth)
         node_scores = node_scores.map {|movie| movie.values.first}
+    end
 
+    def child_count_array(node = @root, depth)
+        children_counts = node_scores(node, depth).map {|score| parent_node(score)}
+    end
 
-
-        children_counts = node_scores.map {|score| parent_node(score)}
-        children_counts
-        
-
-        proportions = children_counts.map {|count| ((count.to_f / total_nodes.to_f)*100).floor}
-        
-        health_array = node_scores.zip(children_counts, proportions) 
-        health_array
+    def node_proportions(node = @root, depth)
+        child_count_array(node, depth).map {|count| ((count.to_f / total_nodes.to_f)*100).floor}
     end
 
     def total_nodes

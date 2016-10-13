@@ -137,7 +137,8 @@ class BinarySearchTree
     end
 
     def child_count_array(movie = @root, depth)
-        children_counts = movie_scores(movie, depth).map {|score| children_of_parent_movie(score)}
+        scores_at_depth = movie_scores(movie, depth)
+        scores_at_depth.map {|score| children_of_parent_movie(score)}
     end
 
     def children_to_total_percentage(movie = @root, depth)
@@ -173,10 +174,10 @@ class BinarySearchTree
         height_left, height_right = height(left), height(right)
 
         return max_height = movie.depth + 1 if left.nil? && right.nil?
-        max_height   = compare(height_left, height_right)
+        max_height   = compare_heights(height_left, height_right)
     end
 
-    def compare(left, right)
+    def compare_heights(left, right)
         return left if left >= right
         right 
     end

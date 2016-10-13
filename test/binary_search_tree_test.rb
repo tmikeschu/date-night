@@ -196,6 +196,15 @@ class BinarySearchTreeTest < Minitest::Test
         {"Sharknado 3"=>92}], tree.movies_at_depth(1)
     end
 
+    def test_return_array_of_movie_scores_at_given_depth
+        tree = BinarySearchTree.new
+        tree.insert(61, "Bill & Ted's Excellent Adventure")
+        tree.insert(16, "Johnny English")
+        tree.insert(92, "Sharknado 3")
+        tree.insert(50, "Hannibal Buress: Animal Furnace")
+        assert_equal ([16, 92]), tree.movie_scores(1)
+    end
+
     def test_can_count_number_of_child_nodes_including_current
         tree = BinarySearchTree.new
         tree.insert(61, "Bill & Ted's Excellent Adventure")
@@ -203,6 +212,15 @@ class BinarySearchTreeTest < Minitest::Test
         tree.insert(92, "Sharknado 3")
         tree.insert(50, "Hannibal Buress: Animal Furnace")
         assert_equal 2, tree.children_of_parent_movie(16)
+    end
+
+    def test_calculate_children_to_total_percentage_for_scores_at_depth
+        tree = BinarySearchTree.new
+        tree.insert(61, "Bill & Ted's Excellent Adventure")
+        tree.insert(16, "Johnny English")
+        tree.insert(92, "Sharknado 3")
+        tree.insert(50, "Hannibal Buress: Animal Furnace")
+        assert_equal ([50, 25]), tree.children_to_total_percentage(1)
     end
 
     def test_health_returns_score_children_and_children_to_total_percentage

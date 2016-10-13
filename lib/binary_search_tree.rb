@@ -125,14 +125,14 @@ class BinarySearchTree
     
     def children_of_parent_movie(movie = @root, score)
         movie = find_movie_at_score(movie, score)
-        children(movie)
+        count_children(movie)
     end
 
-    def children(movie = @root)
+    def count_children(movie = @root)
         child_count  = 0
         child_count += 1
-        child_count += children(movie.left) if movie.left != nil
-        child_count += children(movie.right) if movie.right != nil
+        child_count += count_children(movie.left) if movie.left != nil
+        child_count += count_children(movie.right) if movie.right != nil
         child_count
     end
 

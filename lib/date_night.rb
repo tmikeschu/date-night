@@ -18,66 +18,66 @@ class BinarySearchTree
     end
 
 
-    def left?(node, score)
-        node.movie.values.first > score && node.left != nil
+    def move_left?(movie, score)
+        movie.score > score && movie.left != nil
     end
 
-    def right?(node, score)
-        node.movie.values.first < score && node.right != nil
+    def move_right?(movie, score)
+        movie.score < score && movie.right != nil
     end
  
-    def include?(node = @root, score)
-        if node.movie.values.first == score
+    def include?(movie = @root, score)
+        if movie.score == score
             true
-        elsif left?(node, score)
-            include?(node.left, score)
-        elsif right?(node, score)
-            include?(node.right, score)
+        elsif move_left?(movie, score)
+            include?(movie.left, score)
+        elsif move_right?(movie, score)
+            include?(movie.right, score)
         else
             false            
         end
     end
 
-    def find_node_at_score(node = @root, score)
-        if node.movie.values.first == score
-            node
-        elsif left?(node, score)
-            find_node_at_score(node.left, score)
-        elsif right?(node, score)
-            find_node_at_score(node.right, score)
+    def find_movie_at_score(movie = @root, score)
+        if movie.score == score
+            movie
+        elsif move_left?(movie, score)
+            find_movie_at_score(movie.left, score)
+        elsif move_right?(movie, score)
+            find_movie_at_score(movie.right, score)
         else
             "#{score} does not exist in tree"
         end
     end
 
-    def depth_of(node = @root, score)
-        found_node = find_node_at_score(node, score)
+    def depth_of(movie = @root, score)
+        found_movie = find_movie_at_score(movie, score)
         
-        if found_node.is_a? String
-            found_node 
+        if found_movie.is_a? String
+            found_movie 
         else 
-            found_node.depth
+            found_movie.depth
         end
     end
 
 
-    def max(node = @root)
-        return node.movie if node.right.nil?
-        max(node.right)
+    def max(movie = @root)
+        return movie.title_and_score if movie.right.nil?
+        max(movie.right)
     end
 
-    def min(node = @root)
-       return node.movie if node.left.nil?
-        min(node.left)
+    def min(movie = @root)
+       return movie.title_and_score if movie.left.nil?
+        min(movie.left)
     end 
 
-    def sort(node = @root)
+    def sort(movie = @root)
         sorted_movies = []
-        sorted_movies << node.movie if node.left.nil?
+        sorted_movies << movie.title_and_score if movie.left.nil?
 
-        sorted_movies << sort(node.left) if node.left != nil 
-        sorted_movies << node.movie unless sorted_movies.include?(node.movie)
-        sorted_movies << sort(node.right) if node.right != nil
+        sorted_movies << sort(movie.left) if movie.left != nil 
+        sorted_movies << movie.title_and_score unless sorted_movies.include?(movie.title_and_score)
+        sorted_movies << sort(movie.right) if movie.right != nil
         sorted_movies.flatten
     end
     
@@ -110,66 +110,66 @@ class BinarySearchTree
         end
     end
     
-    def movies_at_depth(node = @root, depth)
+    def movies_at_depth(movie = @root, depth)
         movies = []
-        movies << node.movie if node.depth == depth
-        movies << movies_at_depth(node.left, depth) if node.left != nil
-        movies << movies_at_depth(node.right, depth) if node.right != nil
+        movies << movie.title_and_score if movie.depth == depth
+        movies << movies_at_depth(movie.left, depth) if movie.left != nil
+        movies << movies_at_depth(movie.right, depth) if movie.right != nil
         movies.flatten
     end
     
-    def node_scores(node = @root, depth)
-        node_scores = movies_at_depth(node, depth)
-        node_scores = node_scores.map {|movie| movie.values.first}
+    def movie_scores(movie = @root, depth)
+        movie_scores = movies_at_depth(movie, depth)
+        movie_scores = movie_scores.map {|movie| movie.values.first}
     end
     
-    def parent_node(node = @root, score)
-        node = find_node_at_score(node, score)
-        children(node)
+    def parent_movie(movie = @root, score)
+        movie = find_movie_at_score(movie, score)
+        children(movie)
     end
 
-    def children(node = @root)
+    def children(movie = @root)
         child_count  = 0
         child_count += 1
-        child_count += children(node.left) if node.left != nil
-        child_count += children(node.right) if node.right != nil
+        child_count += children(movie.left) if movie.left != nil
+        child_count += children(movie.right) if movie.right != nil
         child_count
     end
 
-    def child_count_array(node = @root, depth)
-        children_counts = node_scores(node, depth).map {|score| parent_node(score)}
+    def child_count_array(movie = @root, depth)
+        children_counts = movie_scores(movie, depth).map {|score| parent_movie(score)}
     end
 
-    def node_proportions(node = @root, depth)
-        child_count_array(node, depth).map {|count| ((count.to_f / total_nodes.to_f)*100).floor}
+    def node_proportions(movie = @root, depth)
+        child_count_array(movie, depth).map {|count| ((count.to_f / total_movies.to_f)*100).floor}
     end
 
-    def total_nodes
-        parent_node(root.movie.values.first)
+    def total_movies
+        parent_movie(root.score)
     end
     
-    def health(node = @root, depth)
+    def health(movie = @root, depth)
         health_array = []
-        nodes        = node_scores(node, depth)
-        children     = child_count_array(node, depth)        
-        proportions  = node_proportions(node, depth)
-        health_array = nodes.zip(children, proportions) 
+        movies        = movie_scores(movie, depth)
+        children     = child_count_array(movie, depth)        
+        proportions  = node_proportions(movie, depth)
+        health_array = movies.zip(children, proportions) 
     end
 
-    def leaves(node = @root)
+    def leaves(movie = @root)
         leaf_count  = 0
-        leaf_count += 1 if node.left.nil? && node.right.nil?
-        leaf_count += leaves(node.left) if node.left != nil
-        leaf_count += leaves(node.right) if node.right != nil
+        leaf_count += 1 if movie.left.nil? && movie.right.nil?
+        leaf_count += leaves(movie.left) if movie.left != nil
+        leaf_count += leaves(movie.right) if movie.right != nil
         leaf_count
     end
 
-    def height(node = @root)
-        return 0 if node.nil?
+    def height(movie = @root)
+        return 0 if movie.nil?
         max_height = 0
-        left  = node.left
-        right = node.right
-        return max_height = node.depth + 1 if left.nil? && right.nil?
+        left  = movie.left
+        right = movie.right
+        return max_height = movie.depth + 1 if left.nil? && right.nil?
         
         height_left  = height(left)
         height_right = height(right)
@@ -183,52 +183,41 @@ class BinarySearchTree
         end
     end
 
-    def prepare_parent_for_death(node = @root, score)
-        node = find_node_at_score(node, score)
-        save_the_children(node)
+    def prepare_parent_for_death(movie = @root, score)
+        movie = find_movie_at_score(movie, score)
+        save_the_children(movie)
     end
 
-    def save_the_children(node = @root)
-        left  = node.left
-        right = node.right
+    def save_the_children(movie = @root)
+        left  = movie.left
+        right = movie.right
 
         child_array  = []
 
         if left != nil
-            child_array << [left.movie.values.first, left.movie.keys.first]
-            child_array << save_the_children(node.left) 
+            child_array << [left.score, left.title]
+            child_array << save_the_children(movie.left) 
         
-        elsif node.right != nil
-            child_array << [right.movie.values.first, right.movie.keys.first]
-            child_array << save_the_children(node.right)
+        elsif movie.right != nil
+            child_array << [right.score, right.title]
+            child_array << save_the_children(movie.right)
         end 
         child_array.reject! {|child| child.empty?}
         child_array
     end
 
-    def find_parent_at_score(node = @root, score)
-        if node.left.movie.values.first == score || node.right.movie.values.first == score
-            node
-        elsif left?(node, score)
-            find_parent_at_score(node.left, score)
-        elsif right?(node, score)
-            find_parent_at_score(node.right, score)
+    def find_parent_at_score(movie = @root, score)
+        if movie.left.score == score || movie.right.score == score
+            movie
+        elsif move_left?(movie, score)
+            find_parent_at_score(movie.left, score)
+        elsif move_right?(movie, score)
+            find_parent_at_score(movie.right, score)
         else
             "#{score} does not exist in tree"
         end
     end
 
-    def delete(node = @root, score)
-        binding.pry
-        children = prepare_parent_for_death(score)
-        children
-        parent_of_parent = find_parent_at_score(score) 
-        if parent_of_parent.left.movie.values.first == node.movie.values.first
-            parent_of_parent.left = nil
-        elsif parent_of_parent.right.movie.values.first == node.movie.values.first
-            parent_of_parent.right = nil
-        end
-        children.each {|child| insert(child.first, child.last)}
-    end
+    
 
 end

@@ -1,22 +1,30 @@
 require 'pry'
 
 class Node
-    attr_reader   :movie
+    attr_reader   :title_and_score
     attr_accessor :left,
                   :right,
                   :depth
 
     def initialize(score, title)
-        @movie = {title => score}
+        @title_and_score = {title => score}
         @left  = nil
         @right = nil
         @depth = 0
     end
 
+    def score
+        title_and_score.values.first
+    end
+
+    def title
+        title_and_score.keys.first
+    end
+
     def insert(score, title)
-        if movie.values.first > score
+        if self.score > score
             insert_left(score, title)
-        elsif movie.values.first < score
+        elsif self.score < score
             insert_right(score, title)
         else
             "That score is already used. Please try again."

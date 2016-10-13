@@ -52,8 +52,8 @@ class BinarySearchTreeTest < Minitest::Test
     def test_second_insert_has_depth_one
         tree = BinarySearchTree.new
         tree.insert(50, "Boyhood")
-        tree.insert(40, "Captain Fantastic")
-        assert_equal 1, tree.root.left.depth
+        target = tree.insert(40, "Captain Fantastic")
+        assert_equal 1, target
     end
 
     def test_third_insert_has_depth_2_if_smaller_than_root
@@ -170,10 +170,11 @@ class BinarySearchTreeTest < Minitest::Test
         tree.insert(16, "Johnny English")
         tree.insert(92, "Sharknado 3")
         tree.insert(50, "Hannibal Buress: Animal Furnace")
-        assert_equal [{"Johnny English"=>16}, 
-        {"Hannibal Buress: Animal Furnace"=>50}, 
-        {"Bill & Ted's Excellent Adventure"=>61}, 
-        {"Sharknado 3"=>92}], tree.sort
+        expected = [{"Johnny English"=>16}, 
+                    {"Hannibal Buress: Animal Furnace"=>50}, 
+                    {"Bill & Ted's Excellent Adventure"=>61}, 
+                    {"Sharknado 3"=>92}]
+        assert_equal expected, tree.sort
     end
 
     def test_can_load_file

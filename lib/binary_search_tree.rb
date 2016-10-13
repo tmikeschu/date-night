@@ -18,11 +18,11 @@ class BinarySearchTree
     end
 
     def move_left?(movie, score)
-        movie.score > score && movie.left != nil
+        movie.score > score && movie.left
     end
 
     def move_right?(movie, score)
-        movie.score < score && movie.right != nil
+        movie.score < score && movie.right
     end
  
     def include?(movie = @root, score)
@@ -61,6 +61,12 @@ class BinarySearchTree
     end
 
     def min(movie = @root)
+        # if movie.left.nil?
+        #     movie.title_and_score
+        # else
+        #     min(movie.left)
+        # end
+
         return movie.title_and_score if movie.left.nil?
         min(movie.left)
     end 
